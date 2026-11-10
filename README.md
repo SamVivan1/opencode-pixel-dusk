@@ -2,6 +2,12 @@
 
 A Minecraft-inspired pixel-art theme for OpenCode Desktop, with a night cave world, a waystone-framed chat window, a grounded golem companion, and an interactive agent chest.
 
+## Screenshots
+
+![Pixel Dusk cave world](assets/world.png)
+
+![Pixel Companion](assets/companion.png)
+
 ## What is included
 
 - `theme-pixel/` — the Pixel Dusk theme plugin (required)
