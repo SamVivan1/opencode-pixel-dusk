@@ -1,0 +1,9 @@
+{
+  "name": "theme-pixel",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "exports": {
+    "./gui-experimental": "./gui-experimental.cjs"
+  }
+}
