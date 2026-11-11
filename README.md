@@ -24,6 +24,8 @@ A Minecraft-inspired pixel-art theme for OpenCode Desktop, with a night cave wor
 - Loot-scroll roster animation.
 - Adaptive companion hiding on small windows.
 - Reactive cave lighting based on agent state: working, waiting, error, done, idle.
+- Companion soundscape: cave ambience, event SFX, stereo panning, and a Sound menu with master/cave/SFX volume.
+- Audio mutes when the companion is hidden or the app loses focus.
 - Cave focus mode (`View -> Toggle Cave Focus`).
 - Clickable `rune gate` (jump to top) and `summon gate` (focus composer).
 
