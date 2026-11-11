@@ -46,7 +46,7 @@ cp -r pixel-companion ~/.config/opencode/plugins/
 
 - `theme-pixel` works on its own.
 - `pixel-companion` adds the golem, chest, roster, and reactive state lighting.
-- The theme uses embedded SVG backgrounds and fonts, so the plugin bundle is intentionally self-contained.
+- The theme uses embedded SVG/PNG backgrounds and fonts, so the plugin bundle is intentionally self-contained.
 - Reduced-motion preferences are respected.
 
 ## License
