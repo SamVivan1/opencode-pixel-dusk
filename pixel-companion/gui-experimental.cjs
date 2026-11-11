@@ -34,6 +34,13 @@ const CSS = `
   --pc-diamond: var(--mc-diamond, #4fd6d6);
   --pc-redstone: var(--mc-redstone, #e04b4b);
   --pc-emerald: var(--mc-emerald, #4fd67a);
+  --pc-stone-dark: #2f3742;
+  --pc-stone-mid: #4a5562;
+  --pc-stone-light: #6b7684;
+  --pc-stone-hi: #8a95a4;
+  --pc-moss: #3f6a2f;
+  --pc-moss-light: #6fbf44;
+  --pc-rim: #f2c94c;
 }
 [data-color-scheme="light"] #pixel-companion {
   --pc-body: #b08a5a;
@@ -51,6 +58,13 @@ const CSS = `
   --pc-slot-2: var(--mc-slot-2, #e0d0b0);
   --pc-bevel-light: var(--mc-bevel-light, #fff6e0);
   --pc-bevel-dark: var(--mc-bevel-dark, #a08a64);
+  --pc-stone-dark: #6b5a45;
+  --pc-stone-mid: #8a7454;
+  --pc-stone-light: #b09a74;
+  --pc-stone-hi: #d8c7a5;
+  --pc-moss: #4f8f2f;
+  --pc-moss-light: #6fbf44;
+  --pc-rim: #a87b12;
   color: var(--v2-text-text-base, #2b2118);
 }
 #pixel-companion[data-visible="false"],
@@ -759,7 +773,7 @@ const CSS = `
 }
 #pixel-companion .pc-pickaxe {
   transform-box: view-box;
-  transform-origin: 19px 11px;
+  transform-origin: 28px 12px;
 }
 #pixel-companion[data-state="working"] .pc-pickaxe {
   animation: pc-swing 550ms steps(3, end) infinite;
@@ -1018,27 +1032,13 @@ const CSS = `
   animation: none !important;
   transition: none !important;
 }
-/* grounded world platform + shadow */
-#pixel-companion .pc-golem-wrap::before,
-#pixel-companion .pc-chest-wrap::before {
-  content: "";
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: -10px;
-  height: 8px;
-  background: repeating-linear-gradient(90deg, #5a3a1e 0 6px, #2a1b0e 6px 12px);
-  border: 2px solid #080808;
-  box-shadow: inset 0 2px 0 #8a6a3a, inset 0 -2px 0 #1a1208;
-  z-index: -1;
-  pointer-events: none;
-}
+/* ground shadow under the rock */
 #pixel-companion .pc-golem-wrap::after,
 #pixel-companion .pc-chest-wrap::after {
   content: "";
   position: absolute;
-  left: 8px;
-  right: 8px;
+  left: -28px;
+  right: -28px;
   bottom: -14px;
   height: 8px;
   background: radial-gradient(ellipse at center, #00000077 0 55%, transparent 75%);
@@ -1047,165 +1047,229 @@ const CSS = `
   pointer-events: none;
 }
 
-
-/* mineshaft cohesion: brass tags, parchment notes, ore slots */
-#pixel-companion .pc-plate {
+/* companion inscriptions: glowing runes carved into the rock ledge */
+#pixel-companion .pc-nameplate {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 156px;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 5px;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+#pixel-companion .pc-nameplate::before,
+#pixel-companion .pc-nameplate::after {
+  content: none !important;
+  display: none !important;
+}
+#pixel-companion .pc-nameplate-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  min-width: 0;
+  min-height: 14px;
+}
+#pixel-companion .pc-nameplate .pc-plate {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  min-width: 108px !important;
+  justify-content: flex-start !important;
+  min-width: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--pc-gold) !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  letter-spacing: .12em !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 2px 0 #05070a,
+    0 -1px 0 #7f8fa3aa,
+    0 0 7px #f2c94c55 !important;
+}
+#pixel-companion .pc-nameplate .pc-status {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
   height: 14px !important;
-  padding: 0 6px !important;
-  background-color: #2a1b0e !important;
-  background-image: repeating-linear-gradient(90deg, #3a2414 0 6px, #2a1b0e 6px 12px) !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #8a6a3a, inset 0 -2px 0 #1a1208, 1px 1px 0 #000 !important;
-  color: var(--pc-gold) !important;
-  font-size: 9px !important;
-  letter-spacing: 0.12em !important;
-  text-shadow: 0 1px 0 #000 !important;
+  max-width: 100px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #8be9e0 !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: .04em !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 2px 0 #05070a,
+    0 -1px 0 #7f8fa3aa,
+    0 0 8px #8be9e066 !important;
 }
-#pixel-companion .pc-bar {
-  background-color: #0b0d12 !important;
-  background-image: repeating-linear-gradient(0deg, #14161c 0 2px, #0b0d12 2px 4px) !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #3a3d45, inset 0 -2px 0 #080808, 1px 1px 0 #000 !important;
+#pixel-companion .pc-nameplate .pc-bar {
+  width: 100% !important;
+  height: 7px !important;
+  border: 0 !important;
+  background-color: #080b10 !important;
+  background-image: repeating-linear-gradient(0deg, #0b0f15 0 2px, #080b10 2px 4px) !important;
+  box-shadow: inset 0 2px 0 #05070a, inset 0 -1px 0 #3a4552 !important;
+  clip-path: polygon(1px 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+  overflow: hidden !important;
+  position: relative !important;
 }
-#pixel-companion .pc-bar-fill {
-  background: linear-gradient(180deg, #f2c94c, #b8862f) !important;
-  box-shadow: inset 0 2px 0 #ffe38a, inset 0 -2px 0 #7a5c12 !important;
-}
-#pixel-companion .pc-bar-label {
-  color: #c9a26a !important;
-  font-size: 9px !important;
-  text-shadow: 0 1px 0 #000 !important;
-}
-#pixel-companion .pc-status {
-  padding: 0 6px !important;
-  background: #1a1208 !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #5e5e5e, inset 0 -2px 0 #080808 !important;
-  color: var(--pc-gold) !important;
-  font-size: 9px !important;
-  text-shadow: 0 0 4px #f2c94c44 !important;
-}
-#pixel-companion .pc-bubble {
-  background-color: #ead3a2 !important;
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0 3px, #b99b6422 3px 4px),
-    radial-gradient(circle at 18% 12%, #fff4d066, transparent 38%),
-    radial-gradient(circle at 82% 88%, #b98a4a33, transparent 42%) !important;
-  color: #3a2a1a !important;
-  border: 2px solid #3a2614 !important;
+#pixel-companion .pc-nameplate .pc-bar-fill {
+  background: linear-gradient(180deg, #b8fff7, #2f9a9a) !important;
   box-shadow:
-    inset 0 0 0 2px #f7e7be,
-    inset 0 0 18px #8a6a3a44,
-    3px 3px 0 var(--pc-shadow) !important;
-  text-shadow: 0 1px 0 #f7e7be !important;
+    inset 0 1px 0 #e6fffb,
+    inset 0 -1px 0 #145c5c,
+    0 0 5px #7fe7e066 !important;
 }
-#pixel-companion .pc-bubble::after {
-  background: #ead3a2 !important;
-  border-color: #3a2614 !important;
+#pixel-companion .pc-nameplate .pc-bar-fill::after {
+  animation-duration: 3.2s !important;
 }
-#pixel-companion .pc-bubble[data-tone="permission"],
-#pixel-companion .pc-bubble[data-tone="error"] {
-  color: #7a1a1a !important;
-  border-color: var(--pc-redstone) !important;
+#pixel-companion .pc-nameplate .pc-bar-label {
+  color: #e6c07a !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  letter-spacing: .04em !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 2px 0 #05070a,
+    0 -1px 0 #7f8fa3aa,
+    0 0 6px #e6c07a33 !important;
+}
+#pixel-companion .pc-nameplate .pc-usage {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  height: 13px !important;
+  gap: 2px !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  color: var(--pc-gold) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+#pixel-companion .pc-nameplate .pc-roster-bar {
+  width: 100% !important;
+  height: 7px !important;
+  border: 0 !important;
+  background-color: #080b10 !important;
+  background-image: repeating-linear-gradient(0deg, #0b0f15 0 2px, #080b10 2px 4px) !important;
+  box-shadow: inset 0 2px 0 #05070a, inset 0 -1px 0 #3a4552 !important;
+  clip-path: polygon(1px 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+  overflow: hidden !important;
+  display: flex !important;
+}
+#pixel-companion .pc-nameplate .pc-seg {
+  height: 100% !important;
+  min-width: 0 !important;
   box-shadow:
-    inset 0 0 0 2px #f7e7be,
-    inset 0 0 18px #e04b4b33,
-    3px 3px 0 var(--pc-shadow) !important;
+    inset 0 1px 0 #ffffff55,
+    inset 0 -1px 0 #00000066 !important;
 }
-#pixel-companion .pc-bubble[data-tone="permission"]::after,
-#pixel-companion .pc-bubble[data-tone="error"]::after {
-  border-color: var(--pc-redstone) !important;
+#pixel-companion .pc-nameplate .pc-roster-usage {
+  flex: 0 1 auto !important;
+  max-width: 86px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
 }
-#pixel-companion .pc-bubble[data-tone="done"] {
-  color: #2f5f1a !important;
-}
-#pixel-companion .pc-menu {
-  background-color: #1a1208 !important;
-  background-image: repeating-linear-gradient(90deg, #2a1b0e 0 8px, #1a1208 8px 16px) !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #5e5e5e, inset 0 -2px 0 #080808, 4px 4px 0 var(--pc-shadow) !important;
-}
-#pixel-companion .pc-menu button {
-  background-color: #2a1b0e !important;
-  background-image: repeating-linear-gradient(90deg, #3a2414 0 6px, #2a1b0e 6px 12px) !important;
-  color: #e8e8e8 !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #8a6a3a, inset 0 -2px 0 #1a1208, 2px 2px 0 var(--pc-shadow) !important;
-}
-#pixel-companion .pc-menu button:hover:not(:disabled) {
+#pixel-companion .pc-nameplate .pc-roster-total {
   color: var(--pc-gold) !important;
-  filter: brightness(1.16) !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 0 6px #f2c94c55 !important;
 }
-#pixel-companion .pc-roster-bar {
-  height: 10px !important;
-  background-color: #1a1208 !important;
-  background-image: repeating-linear-gradient(0deg, #2a1b0e 0 2px, #1a1208 2px 4px) !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 0 2px 0 #5e5e5e, inset 0 -2px 0 #080808 !important;
+#pixel-companion .pc-nameplate .pc-roster-alert-label {
+  color: #ff8a8a !important;
+  font-size: 10px !important;
+  white-space: nowrap !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 0 7px #ff8a8a66 !important;
 }
-#pixel-companion .pc-slot {
-  background: radial-gradient(circle at 50% 40%, #2e323b 0 30%, #14161c 70%) !important;
-  border: 2px solid #080808 !important;
-  box-shadow: inset 1px 1px 0 #5e5e5e, inset -1px -1px 0 #000 !important;
+#pixel-companion .pc-nameplate .pc-roster-label {
+  color: #e6c07a !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  letter-spacing: .04em !important;
+  text-shadow:
+    0 1px 0 #05070a,
+    0 2px 0 #05070a,
+    0 -1px 0 #7f8fa3aa,
+    0 0 6px #e6c07a33 !important;
 }
-#pixel-companion .pc-roster-label {
-  color: #c9a26a !important;
-  font-size: 9px !important;
-  text-shadow: 0 1px 0 #000 !important;
+#pixel-companion .pc-nameplate .pc-roster-alert-label[data-kind="error"] {
+  color: #ff8a8a !important;
 }
-#pixel-companion .pc-roster-usage,
-#pixel-companion .pc-roster-total {
+#pixel-companion .pc-nameplate .pc-roster-alert-label[data-kind="approval"] {
   color: var(--pc-gold) !important;
-  text-shadow: 0 0 4px #f2c94c33 !important;
 }
-
-
-/* hover feedback + state motion */
-#pixel-companion .pc-golem-hit:hover .pc-eye,
-#pixel-companion .pc-golem-hit:focus-visible .pc-eye {
-  filter: drop-shadow(0 0 4px var(--pc-eye));
+@keyframes pc-rune-pulse {
+  0%, 100% { opacity: .88; }
+  50% { opacity: 1; }
 }
-#pixel-companion .pc-golem-hit:hover .pc-pickaxe,
-#pixel-companion .pc-golem-hit:focus-visible .pc-pickaxe {
-  filter: drop-shadow(0 0 5px var(--pc-diamond));
+#pixel-companion .pc-nameplate .pc-plate,
+#pixel-companion .pc-nameplate .pc-status,
+#pixel-companion .pc-nameplate .pc-roster-total,
+#pixel-companion .pc-nameplate .pc-roster-alert-label {
+  animation: pc-rune-pulse 4.8s steps(2, end) infinite;
 }
-#pixel-companion .pc-chest-hit:hover .pc-latch,
-#pixel-companion .pc-chest-hit:focus-visible .pc-latch {
-  filter: drop-shadow(0 0 5px var(--pc-gold));
+/* the rock ledge the companions stand on */
+#pixel-companion .pc-rock {
+  position: relative;
+  z-index: 0;
+  flex: none;
+  width: 192px;
+  height: 120px;
+  margin-top: -3px;
+  pointer-events: none;
+  image-rendering: pixelated;
+  filter: drop-shadow(3px 3px 0 #000000aa);
 }
-#pixel-companion .pc-chest-wrap[data-lid="closed"] .pc-chest-hit:hover .pc-chest-lid,
-#pixel-companion .pc-chest-wrap[data-lid="closed"] .pc-chest-hit:focus-visible .pc-chest-lid {
-  transform: rotateX(-5deg);
+#pixel-companion .pc-golem-hit,
+#pixel-companion .pc-chest-hit {
+  z-index: 2;
 }
-#pixel-companion[data-state="permission"] .pc-chest-wrap[data-lid="closed"] .pc-chest-hit {
-  animation: pc-shake 900ms steps(2, end) infinite;
+#pixel-companion .pc-golem-wrap .pc-rock {
+  margin-top: -37px;
 }
-#pixel-companion[data-state="error"] .pc-chest-wrap[data-lid="closed"] .pc-chest-hit {
-  animation: pc-shake 520ms steps(2, end) infinite;
-}
-#pixel-companion[data-state="permission"] .pc-chest {
-  filter: drop-shadow(0 0 8px var(--pc-gold)) drop-shadow(4px 4px 0 var(--pc-shadow)) !important;
-}
-#pixel-companion[data-state="error"] .pc-chest {
-  filter: drop-shadow(0 0 8px var(--pc-redstone)) drop-shadow(4px 4px 0 var(--pc-shadow)) !important;
-}
-#pixel-companion[data-state="permission"] .pc-latch {
-  animation: pc-lamp-pulse 1.15s steps(2, end) infinite;
-}
-#pixel-companion[data-state="done"] .pc-chest-wrap[data-lid="closed"] .pc-chest-lid {
-  animation: pc-lid-tap 640ms steps(3, end) 2;
-}
-@keyframes pc-lid-tap {
-  0%, 100% { transform: rotateX(0); }
-  38% { transform: rotateX(-9deg); }
-}
-@keyframes pc-lamp-pulse {
-  0%, 100% { filter: drop-shadow(0 0 2px var(--pc-gold)); }
-  50% { filter: drop-shadow(0 0 8px var(--pc-gold)); }
+#pixel-companion .pc-chest-wrap .pc-rock {
+  margin-top: -29px;
 }
 
 `
@@ -1214,51 +1278,159 @@ const HTML = `
 <div class="pc-golem-wrap" data-side="left">
   <div class="pc-bubble" role="status" aria-live="polite" hidden></div>
   <div class="pc-golem-hit" role="button" tabindex="0" aria-label="Pixel companion menu">
-    <svg class="pc-golem" viewBox="0 0 24 24" width="112" height="112" shape-rendering="crispEdges" aria-hidden="true">
-      <ellipse class="pc-golem-shadow" cx="12" cy="22.4" rx="6.5" ry="1.2" fill="#000" opacity="0.38"/>
+    <svg class="pc-golem" viewBox="0 0 32 32" width="112" height="112" shape-rendering="crispEdges" aria-hidden="true">
+      <ellipse class="pc-golem-shadow" cx="16" cy="30" rx="9" ry="1.6" fill="#000" opacity="0.42"/>
       <g class="pc-legs">
-        <rect x="8" y="18" width="3" height="4" fill="var(--pc-body-dark)"/>
-        <rect x="13" y="18" width="3" height="4" fill="var(--pc-body-dark)"/>
-        <rect x="8" y="21" width="3" height="1" fill="var(--pc-body-light)"/>
-        <rect x="13" y="21" width="3" height="1" fill="var(--pc-body-light)"/>
+        <rect x="9" y="23" width="5" height="6" fill="var(--pc-stone-dark)"/>
+        <rect x="18" y="23" width="5" height="6" fill="var(--pc-stone-dark)"/>
+        <rect x="9" y="28" width="5" height="1" fill="var(--pc-stone-light)"/>
+        <rect x="18" y="28" width="5" height="1" fill="var(--pc-stone-light)"/>
+        <rect x="11" y="24" width="1" height="3" fill="var(--pc-stone-mid)"/>
+        <rect x="20" y="24" width="1" height="3" fill="var(--pc-stone-mid)"/>
       </g>
       <g class="pc-body">
-        <rect x="7" y="10" width="10" height="8" fill="var(--pc-body)"/>
-        <rect x="7" y="10" width="10" height="2" fill="var(--pc-body-light)"/>
-        <rect x="7" y="16" width="10" height="2" fill="var(--pc-body-dark)"/>
-        <rect x="9" y="12" width="2" height="2" fill="var(--pc-body-dark)" opacity="0.45"/>
-        <rect x="13" y="14" width="2" height="1" fill="var(--pc-body-dark)" opacity="0.35"/>
+        <rect x="9" y="14" width="14" height="10" fill="var(--pc-stone-mid)"/>
+        <rect x="9" y="14" width="14" height="2" fill="var(--pc-stone-light)"/>
+        <rect x="9" y="22" width="14" height="2" fill="var(--pc-stone-dark)"/>
+        <rect x="11" y="17" width="3" height="3" fill="var(--pc-stone-dark)" opacity="0.55"/>
+        <rect x="12" y="16" width="1" height="4" fill="var(--pc-stone-dark)"/>
+        <rect x="16" y="18" width="3" height="1" fill="var(--pc-stone-dark)"/>
+        <rect x="16" y="15" width="3" height="1" fill="var(--pc-stone-light)"/>
+        <rect x="9" y="14" width="1" height="8" fill="var(--pc-rim)" opacity=".55"/>
+        <rect x="18" y="19" width="2" height="2" fill="var(--pc-stone-hi)"/>
+        <rect x="13" y="21" width="6" height="1" fill="var(--pc-stone-dark)"/>
+        <rect x="9" y="15" width="3" height="1" fill="var(--pc-moss)"/>
+        <rect x="20" y="22" width="2" height="1" fill="var(--pc-moss)"/>
+        <rect x="10" y="15" width="1" height="1" fill="var(--pc-moss-light)"/>
       </g>
-      <rect class="pc-arm-left" x="4" y="11" width="3" height="7" fill="var(--pc-body)"/>
-      <rect x="4" y="11" width="1" height="7" fill="var(--pc-body-light)"/>
-      <rect class="pc-arm-right" x="17" y="11" width="3" height="7" fill="var(--pc-body)"/>
-      <rect x="19" y="11" width="1" height="7" fill="var(--pc-body-dark)"/>
+      <g class="pc-shoulders">
+        <rect x="6" y="13" width="5" height="4" fill="var(--pc-stone-light)"/>
+        <rect x="6" y="13" width="5" height="1" fill="var(--pc-stone-hi)"/>
+        <rect x="7" y="15" width="2" height="2" fill="var(--pc-moss)"/>
+        <rect x="7" y="15" width="1" height="1" fill="var(--pc-moss-light)"/>
+        <rect x="21" y="13" width="5" height="4" fill="var(--pc-stone-mid)"/>
+        <rect x="21" y="13" width="5" height="1" fill="var(--pc-stone-light)"/>
+        <rect x="24" y="15" width="2" height="1" fill="var(--pc-moss)"/>
+      </g>
+      <g class="pc-arm-left">
+        <rect x="4" y="15" width="5" height="11" fill="var(--pc-stone-mid)"/>
+        <rect x="4" y="15" width="1" height="10" fill="var(--pc-rim)"/>
+        <rect x="7" y="19" width="2" height="6" fill="var(--pc-stone-dark)"/>
+        <rect x="4" y="25" width="4" height="1" fill="var(--pc-stone-light)"/>
+      </g>
+      <g class="pc-arm-right">
+        <rect x="23" y="15" width="5" height="11" fill="var(--pc-stone-mid)"/>
+        <rect x="27" y="16" width="1" height="9" fill="var(--pc-stone-dark)"/>
+        <rect x="24" y="19" width="1" height="6" fill="var(--pc-stone-hi)"/>
+        <rect x="24" y="25" width="4" height="1" fill="var(--pc-stone-light)"/>
+      </g>
       <g class="pc-head">
-        <rect x="8" y="3" width="8" height="7" fill="var(--pc-body)"/>
-        <rect x="8" y="3" width="8" height="2" fill="var(--pc-body-light)"/>
-        <rect x="8" y="9" width="8" height="1" fill="var(--pc-body-dark)"/>
-        <rect class="pc-eye" x="9" y="6" width="2" height="2" fill="var(--pc-eye)"/>
-        <rect class="pc-eye" x="13" y="6" width="2" height="2" fill="var(--pc-eye)"/>
-        <rect x="10" y="9" width="4" height="1" fill="var(--pc-body-dark)"/>
+        <rect x="11" y="5" width="10" height="9" fill="var(--pc-stone-mid)"/>
+        <rect x="11" y="5" width="10" height="2" fill="var(--pc-stone-light)"/>
+        <rect x="11" y="12" width="10" height="2" fill="var(--pc-stone-dark)"/>
+        <rect x="12" y="6" width="2" height="2" fill="var(--pc-moss)"/>
+        <rect x="12" y="6" width="1" height="1" fill="var(--pc-moss-light)"/>
+        <rect x="14" y="8" width="2" height="2" fill="var(--pc-eye)"/>
+        <rect x="18" y="8" width="2" height="2" fill="var(--pc-eye)"/>
+        <rect x="15" y="11" width="2" height="1" fill="var(--pc-stone-dark)"/>
+        <rect x="20" y="6" width="1" height="3" fill="var(--pc-stone-dark)"/>
+        <rect x="18" y="7" width="1" height="2" fill="var(--pc-stone-dark)"/>
+        <rect x="11" y="5" width="1" height="4" fill="var(--pc-rim)" opacity=".45"/>
+        <rect x="11" y="12" width="2" height="1" fill="var(--pc-rim)"/>
+        <rect x="17" y="6" width="1" height="1" fill="var(--pc-stone-hi)"/>
       </g>
       <g class="pc-pickaxe">
-        <rect x="19" y="10" width="1" height="8" fill="var(--pc-wood)"/>
-        <rect x="17" y="8" width="5" height="1" fill="var(--pc-diamond)"/>
-        <rect x="17" y="7" width="1" height="1" fill="var(--pc-diamond)"/>
-        <rect x="21" y="7" width="1" height="1" fill="var(--pc-diamond)"/>
+        <rect x="28" y="10" width="1" height="17" fill="var(--pc-wood)"/>
+        <rect x="28" y="10" width="1" height="2" fill="var(--pc-wood-light)"/>
+        <rect x="25" y="8" width="7" height="1" fill="var(--pc-diamond)"/>
+        <rect x="24" y="7" width="1" height="1" fill="var(--pc-diamond)"/>
+        <rect x="31" y="7" width="1" height="2" fill="var(--pc-diamond)"/>
+        <rect x="27" y="9" width="2" height="1" fill="var(--pc-stone-hi)"/>
       </g>
       <g class="pc-sparkle" fill="var(--pc-gold)">
         <rect x="3" y="4" width="1" height="1"/>
-        <rect x="21" y="4" width="1" height="1"/>
+        <rect x="29" y="4" width="1" height="1"/>
         <rect x="2" y="14" width="1" height="1"/>
-        <rect x="22" y="15" width="1" height="1"/>
+        <rect x="30" y="22" width="1" height="1"/>
       </g>
     </svg>
   </div>
-  <div class="pc-plate">DUSK</div>
-  <div class="pc-bar pc-golem-bar" data-high="false"><span class="pc-bar-fill"></span></div>
-  <div class="pc-bar-label pc-golem-context">CONTEXT —</div>
-  <div class="pc-status">IDLE</div>
+  <svg class="pc-rock" viewBox="0 0 64 40" width="192" height="120" shape-rendering="crispEdges" aria-hidden="true">
+      <path d="M3 0 H10 V1 H12 V7 H11 V8 H53 V7 H52 V1 H54 V0 H61 V2 H62 V6 H63 V10 H64 V14 H63 V18 H64 V22 H62 V26 H63 V30 H61 V34 H58 V36 H59 V39 H55 V40 H12 V39 H9 V37 H5 V34 H3 V30 H4 V26 H2 V22 H3 V18 H1 V14 H2 V10 H3 V6 H4 V2 H3 Z" fill="#465666" stroke="#07090d" stroke-width="1" stroke-linejoin="miter"/>
+      <defs>
+        <clipPath id="pc-rock-clip-golem"><path d="M3 0 H10 V1 H12 V7 H11 V8 H53 V7 H52 V1 H54 V0 H61 V2 H62 V6 H63 V10 H64 V14 H63 V18 H64 V22 H62 V26 H63 V30 H61 V34 H58 V36 H59 V39 H55 V40 H12 V39 H9 V37 H5 V34 H3 V30 H4 V26 H2 V22 H3 V18 H1 V14 H2 V10 H3 V6 H4 V2 H3 Z"/></clipPath>
+      </defs>
+      <g clip-path="url(#pc-rock-clip-golem)">
+        <rect x="0" y="8" width="64" height="10" fill="#4a5563"/>
+        <path d="M0 17 H7 V19 H16 V17 H28 V20 H40 V18 H50 V20 H57 V17 H64 V40 H0 Z" fill="#1f2833"/>
+        <rect x="2" y="24" width="3" height="1" fill="#34404c"/>
+        <rect x="59" y="26" width="3" height="1" fill="#2a3440"/>
+        <rect x="3" y="33" width="2" height="1" fill="#34404c"/>
+        <rect x="58" y="36" width="3" height="1" fill="#2a3440"/>
+        <rect x="11" y="8" width="42" height="1" fill="#7a8798"/>
+        <rect x="11" y="9" width="42" height="2" fill="#6b7684"/>
+        <rect x="9" y="11" width="46" height="1" fill="#5a6a7d"/>
+        <rect x="3" y="0" width="7" height="1" fill="#7a8798"/>
+        <rect x="2" y="1" width="10" height="2" fill="#6b7684"/>
+        <rect x="2" y="3" width="9" height="3" fill="#5a6a7d"/>
+        <rect x="54" y="0" width="7" height="1" fill="#7a8798"/>
+        <rect x="53" y="1" width="9" height="2" fill="#6b7684"/>
+        <rect x="54" y="3" width="8" height="3" fill="#5a6a7d"/>
+        <rect x="10" y="13" width="14" height="2" fill="#5a6a7d"/>
+        <rect x="40" y="16" width="14" height="2" fill="#5a6a7d"/>
+        <rect x="16" y="18" width="10" height="1" fill="#5a6a7d"/>
+        <rect x="42" y="19" width="10" height="1" fill="#5a6a7d"/>
+        <rect x="6" y="23" width="8" height="2" fill="#4a5563"/>
+        <rect x="50" y="26" width="8" height="2" fill="#4a5563"/>
+        <rect x="26" y="12" width="1" height="4" fill="#141a22"/>
+        <rect x="27" y="16" width="1" height="1" fill="#141a22"/>
+        <rect x="41" y="11" width="1" height="3" fill="#141a22"/>
+        <rect x="40" y="14" width="1" height="2" fill="#141a22"/>
+        <rect x="33" y="14" width="1" height="3" fill="#1b222c"/>
+        <rect x="20" y="19" width="1" height="2" fill="#141a22"/>
+        <rect x="52" y="20" width="1" height="2" fill="#141a22"/>
+        <rect x="31" y="15" width="2" height="2" fill="#2f9a9a"/>
+        <rect x="32" y="14" width="1" height="1" fill="#8be9e0"/>
+        <rect x="30" y="16" width="1" height="1" fill="#4fd6d6"/>
+        <rect x="33" y="16" width="1" height="1" fill="#4fd6d6"/>
+        <rect x="4" y="0" width="5" height="1" fill="#3f6a2f"/>
+        <rect x="5" y="1" width="2" height="1" fill="#4f7a36"/>
+        <rect x="3" y="2" width="2" height="1" fill="#2f5426"/>
+        <rect x="55" y="1" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="57" y="2" width="2" height="1" fill="#4f7a36"/>
+        <rect x="12" y="8" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="13" y="9" width="2" height="1" fill="#4f7a36"/>
+        <rect x="46" y="8" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="48" y="9" width="2" height="1" fill="#4f7a36"/>
+        <rect x="16" y="9" width="1" height="3" fill="#3f6a2f"/>
+        <rect x="17" y="10" width="1" height="2" fill="#4f7a36"/>
+        <rect x="50" y="9" width="1" height="2" fill="#2f5426"/>
+        <rect x="3" y="20" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="4" y="21" width="1" height="1" fill="#4f7a36"/>
+        <rect x="5" y="33" width="2" height="1" fill="#2f5426"/>
+        <rect x="58" y="17" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="59" y="18" width="1" height="1" fill="#4f7a36"/>
+        <rect x="55" y="35" width="2" height="1" fill="#2f5426"/>
+        <rect x="12" y="38" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="50" y="37" width="2" height="1" fill="#2f5426"/>
+        <rect x="7" y="5" width="1" height="1" fill="#f2c94c"/>
+        <rect x="8" y="6" width="1" height="1" fill="#b8862f"/>
+        <rect x="58" y="5" width="1" height="1" fill="#f2c94c"/>
+        <rect x="59" y="6" width="1" height="1" fill="#b8862f"/>
+        <rect x="54" y="4" width="1" height="1" fill="#b8862f"/>
+        <rect x="4" y="27" width="1" height="1" fill="#f2c94c"/>
+        <rect x="60" y="31" width="2" height="2" fill="#4fd6d6"/>
+        <rect x="61" y="30" width="1" height="1" fill="#b8fff7"/>
+      </g>
+    </svg>
+  <div class="pc-nameplate pc-golem-nameplate">
+    <div class="pc-nameplate-row">
+      <span class="pc-plate">DUSK</span>
+      <span class="pc-status">IDLE</span>
+    </div>
+    <div class="pc-bar pc-golem-bar" data-high="false"><span class="pc-bar-fill"></span></div>
+    <div class="pc-bar-label pc-golem-context">CONTEXT</div>
+  </div>
   <div class="pc-menu" hidden>
     <button type="button" data-pc-action="stop" disabled>Stop turn</button>
     <button type="button" data-pc-action="focus">Focus prompt</button>
@@ -1296,15 +1468,85 @@ const HTML = `
       <span style="--x:0px;--y:-126px;--size:3px;--delay:140ms"></span>
     </div>
   </div>
-  <div class="pc-plate">AGENTS</div>
-  <div class="pc-roster-bar" aria-hidden="true">
-    <span class="pc-seg pc-seg-working"></span>
-    <span class="pc-seg pc-seg-waiting"></span>
-    <span class="pc-seg pc-seg-error"></span>
-    <span class="pc-seg pc-seg-idle"></span>
+  <svg class="pc-rock" viewBox="0 0 64 40" width="192" height="120" shape-rendering="crispEdges" aria-hidden="true">
+      <path d="M3 0 H10 V1 H12 V7 H11 V8 H53 V7 H52 V1 H54 V0 H61 V2 H62 V6 H63 V10 H64 V14 H63 V18 H64 V22 H62 V26 H63 V30 H61 V34 H58 V36 H59 V39 H55 V40 H12 V39 H9 V37 H5 V34 H3 V30 H4 V26 H2 V22 H3 V18 H1 V14 H2 V10 H3 V6 H4 V2 H3 Z" fill="#465666" stroke="#07090d" stroke-width="1" stroke-linejoin="miter"/>
+      <defs>
+        <clipPath id="pc-rock-clip-chest"><path d="M3 0 H10 V1 H12 V7 H11 V8 H53 V7 H52 V1 H54 V0 H61 V2 H62 V6 H63 V10 H64 V14 H63 V18 H64 V22 H62 V26 H63 V30 H61 V34 H58 V36 H59 V39 H55 V40 H12 V39 H9 V37 H5 V34 H3 V30 H4 V26 H2 V22 H3 V18 H1 V14 H2 V10 H3 V6 H4 V2 H3 Z"/></clipPath>
+      </defs>
+      <g clip-path="url(#pc-rock-clip-chest)">
+        <rect x="0" y="8" width="64" height="6" fill="#4a5563"/>
+        <rect x="0" y="14" width="64" height="8" fill="#465666"/>
+        <rect x="0" y="22" width="64" height="13" fill="#3a4552"/>
+        <rect x="0" y="34" width="64" height="6" fill="#2f3a47"/>
+        <rect x="11" y="8" width="42" height="1" fill="#7a8798"/>
+        <rect x="11" y="9" width="42" height="2" fill="#6b7684"/>
+        <rect x="9" y="11" width="46" height="1" fill="#5a6a7d"/>
+        <rect x="3" y="0" width="7" height="1" fill="#7a8798"/>
+        <rect x="2" y="1" width="10" height="2" fill="#6b7684"/>
+        <rect x="2" y="3" width="9" height="3" fill="#5a6a7d"/>
+        <rect x="54" y="0" width="7" height="1" fill="#7a8798"/>
+        <rect x="53" y="1" width="9" height="2" fill="#6b7684"/>
+        <rect x="54" y="3" width="8" height="3" fill="#5a6a7d"/>
+        <rect x="10" y="13" width="14" height="2" fill="#5a6a7d"/>
+        <rect x="40" y="16" width="14" height="2" fill="#5a6a7d"/>
+        <rect x="16" y="18" width="10" height="1" fill="#5a6a7d"/>
+        <rect x="42" y="19" width="10" height="1" fill="#5a6a7d"/>
+        <rect x="6" y="23" width="8" height="2" fill="#4a5563"/>
+        <rect x="50" y="26" width="8" height="2" fill="#4a5563"/>
+        <rect x="26" y="12" width="1" height="4" fill="#141a22"/>
+        <rect x="27" y="16" width="1" height="1" fill="#141a22"/>
+        <rect x="41" y="11" width="1" height="3" fill="#141a22"/>
+        <rect x="40" y="14" width="1" height="2" fill="#141a22"/>
+        <rect x="33" y="14" width="1" height="3" fill="#1b222c"/>
+        <rect x="20" y="19" width="1" height="2" fill="#141a22"/>
+        <rect x="52" y="20" width="1" height="2" fill="#141a22"/>
+        <rect x="31" y="15" width="2" height="2" fill="#2f9a9a"/>
+        <rect x="32" y="14" width="1" height="1" fill="#8be9e0"/>
+        <rect x="30" y="16" width="1" height="1" fill="#4fd6d6"/>
+        <rect x="33" y="16" width="1" height="1" fill="#4fd6d6"/>
+        <rect x="4" y="0" width="5" height="1" fill="#3f6a2f"/>
+        <rect x="5" y="1" width="2" height="1" fill="#4f7a36"/>
+        <rect x="3" y="2" width="2" height="1" fill="#2f5426"/>
+        <rect x="55" y="1" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="57" y="2" width="2" height="1" fill="#4f7a36"/>
+        <rect x="12" y="8" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="13" y="9" width="2" height="1" fill="#4f7a36"/>
+        <rect x="46" y="8" width="4" height="1" fill="#3f6a2f"/>
+        <rect x="48" y="9" width="2" height="1" fill="#4f7a36"/>
+        <rect x="16" y="9" width="1" height="3" fill="#3f6a2f"/>
+        <rect x="17" y="10" width="1" height="2" fill="#4f7a36"/>
+        <rect x="50" y="9" width="1" height="2" fill="#2f5426"/>
+        <rect x="3" y="20" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="4" y="21" width="1" height="1" fill="#4f7a36"/>
+        <rect x="5" y="33" width="2" height="1" fill="#2f5426"/>
+        <rect x="58" y="17" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="59" y="18" width="1" height="1" fill="#4f7a36"/>
+        <rect x="55" y="35" width="2" height="1" fill="#2f5426"/>
+        <rect x="12" y="38" width="3" height="1" fill="#3f6a2f"/>
+        <rect x="50" y="37" width="2" height="1" fill="#2f5426"/>
+        <rect x="7" y="5" width="1" height="1" fill="#f2c94c"/>
+        <rect x="8" y="6" width="1" height="1" fill="#b8862f"/>
+        <rect x="58" y="5" width="1" height="1" fill="#f2c94c"/>
+        <rect x="59" y="6" width="1" height="1" fill="#b8862f"/>
+        <rect x="54" y="4" width="1" height="1" fill="#b8862f"/>
+        <rect x="4" y="27" width="1" height="1" fill="#f2c94c"/>
+        <rect x="60" y="31" width="2" height="2" fill="#4fd6d6"/>
+        <rect x="61" y="30" width="1" height="1" fill="#b8fff7"/>
+      </g>
+    </svg>
+  <div class="pc-nameplate pc-chest-nameplate">
+    <div class="pc-nameplate-row">
+      <span class="pc-plate">AGENTS</span>
+      <span class="pc-usage pc-roster-usage"><span class="pc-roster-total"></span><span class="pc-roster-alert-label"></span></span>
+    </div>
+    <div class="pc-roster-bar" aria-hidden="true">
+      <span class="pc-seg pc-seg-working"></span>
+      <span class="pc-seg pc-seg-waiting"></span>
+      <span class="pc-seg pc-seg-error"></span>
+      <span class="pc-seg pc-seg-idle"></span>
+    </div>
+    <div class="pc-bar-label pc-roster-label">AGENTS</div>
   </div>
-  <div class="pc-bar-label pc-roster-label">AGENTS —</div>
-  <div class="pc-usage pc-roster-usage"><span class="pc-roster-total">—</span><span class="pc-roster-alert-label"></span></div>
   <div class="pc-detail pc-roster-detail pc-scroll" id="pc-roster-panel" data-open="false" aria-hidden="true" role="region" aria-label="Agent roster">
     <div class="pc-scroll-glow" aria-hidden="true"></div>
     <div class="pc-scroll-rod pc-scroll-rod-top" aria-hidden="true">
@@ -2200,8 +2442,8 @@ module.exports = Plugin.define({
           els.rosterLabel,
           total === 0 ? (rosterFetchedAt ? emptyLabel : "LOADING…") : working + " WORK · " + idle + " IDLE",
         )
-        setText(els.rosterTotal, total === 0 ? "" : total + " " + scopeLabel)
-        setText(els.rosterAlertLabel, alerts ? " · " + alerts + " ALERT" : "")
+        setText(els.rosterTotal, total === 0 ? "" : String(total))
+        setText(els.rosterAlertLabel, alerts ? "!" + alerts : "")
         setData(els.rosterAlertLabel, "kind", errors ? "error" : waiting ? "approval" : "")
         setText(els.rosterCount, total === 0 ? "" : total + " AGENTS")
         setData(els.chestWrap, "lid", detailOpen ? "open" : working + alerts > 0 ? "ajar" : "closed")
