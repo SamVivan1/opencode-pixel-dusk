@@ -2230,7 +2230,6 @@ module.exports = Plugin.define({
       else if (action === "test") {
         if (!settings.sound) {
           toggleSound()
-          setTimeout(() => audioPlay("rune-activate", { bus: "ui", volume: 0.8 }), 180)
           return
         }
         unlockAudio()
